@@ -25,3 +25,6 @@
     padding: 0;
     font-style: italic;
   }
+  .ui button{
+    background-color: rgba(20, 1, 1, 0.349);
+  }
