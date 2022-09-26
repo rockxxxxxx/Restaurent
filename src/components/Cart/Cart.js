@@ -23,7 +23,10 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Cart({ children }) {
+export default function Cart(props) {
+  if(props.status===false){
+    return null
+  }
   return ReactDOM.createPortal(
     <>
       <div style={OVERLAY_STYLES} />
@@ -42,14 +45,15 @@ export default function Cart({ children }) {
         </h2>
 
         <div
-          class="ui brown button"
+          className="ui brown button"
           style={{ float: "right", marginTop: "10px", clear: "right" }}
         >
           Order
         </div>
         <div
-          class="ui  button"
+          className="ui  button"
           style={{ float: "right", marginTop: "10px", clear: "left" }}
+          onClick={()=>props.closeButton()}
         >
           Close
         </div>

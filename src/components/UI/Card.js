@@ -31,13 +31,13 @@ const items = [
 export default function Card() {
   return (
     <div className="cardList container">
-      <div class="ui middle aligned divided list">
+      <div className="ui middle aligned divided list">
         {items.map((item) => {
           return (
             <div className="item itemParent" key={item.id}>
-              <div class="right floated content">
+              <div className="right floated content">
                 <form>
-                  <select class="ui dropdown">
+                  <select className="ui dropdown">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -45,7 +45,7 @@ export default function Card() {
                     <option value="5">5</option>
                   </select>
                   &nbsp;&nbsp;
-                  <div class="ui brown button">+ Add</div>
+                  <div className="ui brown button">+ Add</div>
                 </form>
               </div>
               <h4>

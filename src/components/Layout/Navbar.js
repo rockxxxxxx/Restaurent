@@ -1,12 +1,12 @@
 import React from "react";
 import "./Navbar.css";
 
-export default function Navbar() {
+export default function Navbar(props) {
   return (
     <>
       <div className="nav">
         <p className="nav-logo">ReactMeals</p>
-        <p className="cart">
+        <p className="cart" style={{cursor: "pointer"}} onClick={()=>props.cartClickHandler()} >
           <i
             className="fa fa-shopping-cart"
             style={{ fontSize: "20px", color: "white", paddingLeft: "30px" }}
