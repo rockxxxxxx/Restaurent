@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
+import CartContext from "../Context/CartContext";
 
 export default function Navbar(props) {
+  const cartItems = useContext(CartContext);
   return (
     <>
       <div className="nav">
         <p className="nav-logo">ReactMeals</p>
-        <p className="cart" style={{cursor: "pointer"}} onClick={()=>props.cartClickHandler()} >
+        <p
+          className="cart"
+          style={{ cursor: "pointer" }}
+          onClick={() => props.cartClickHandler()}
+        >
           <i
             className="fa fa-shopping-cart"
             style={{ fontSize: "20px", color: "white", paddingLeft: "30px" }}
           ></i>
-          &nbsp;&nbsp;Your Cart <span className="count">0</span>
+          &nbsp;&nbsp;Your Cart{" "}
+          <span className="count">{cartItems.cartItem.length}</span>
         </p>
       </div>
       <div className="MealsImage">

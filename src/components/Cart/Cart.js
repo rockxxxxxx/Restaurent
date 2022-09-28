@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
+import CartContext from "../Context/CartContext";
 
 const MODAL_STYLES = {
   position: "fixed",
@@ -24,39 +25,41 @@ const OVERLAY_STYLES = {
 };
 
 export default function Cart(props) {
-  if(props.status===false){
-    return null
+  const showCartItem = useContext(CartContext);
+  if (props.status === false) {
+    return null;
   }
   return ReactDOM.createPortal(
     <>
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
-        <h4 style={{ textAlign: "left", marginTop: "0px" }}>Sushi</h4>
-        <h2
-          style={{ marginTop: "10px", display: "inline-block", float: "left" }}
-        >
-          <b>Total Amount</b>
-        </h2>
-
-        <h2
-          style={{ marginTop: "10px", display: "inline-block", float: "right" }}
-        >
-          $500
-        </h2>
-
-        <div
-          className="ui brown button"
-          style={{ float: "right", marginTop: "10px", clear: "right" }}
-        >
-          Order
-        </div>
-        <div
-          className="ui  button"
-          style={{ float: "right", marginTop: "10px", clear: "left" }}
-          onClick={()=>props.closeButton()}
-        >
-          Close
-        </div>
+        {showCartItem.cartItem.map((item) => {
+          return (
+            <>
+              <h4
+                style={{
+                  textAlign: "left",
+                  marginTop: "0px",
+                  display: "inline-block",
+                  float: "left",
+                }}
+              >
+                {item.title}
+              </h4>
+              <h4
+                style={{
+                  textAlign: "left",
+                  marginTop: "0px",
+                  display: "inline-block",
+                  float: "right",
+                }}
+              >
+                {item.price}
+              </h4>
+              <br />
+            </>
+          );
+        })}
       </div>
     </>,
     document.getElementById("portal")

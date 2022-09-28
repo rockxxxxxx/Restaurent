@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import CartContext from "../Context/CartContext";
 import "./Card.css";
 
 const items = [
@@ -29,6 +30,10 @@ const items = [
 ];
 
 export default function Card() {
+  const cartContextHandler = useContext(CartContext);
+  function addCartHandler(item) {
+    cartContextHandler.update(item);
+  }
   return (
     <div className="cardList container">
       <div className="ui middle aligned divided list">
@@ -45,7 +50,12 @@ export default function Card() {
                     <option value="5">5</option>
                   </select>
                   &nbsp;&nbsp;
-                  <div className="ui brown button">+ Add</div>
+                  <div
+                    className="ui brown button"
+                    onClick={() => addCartHandler(item)}
+                  >
+                    + Add
+                  </div>
                 </form>
               </div>
               <h4>
