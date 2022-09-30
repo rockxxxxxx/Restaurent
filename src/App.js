@@ -1,28 +1,29 @@
-import { useState } from "react";
-import "./App.css";
-import Cart from "./components/Cart/Cart";
-import CartState from "./components/Context/CartState";
-import Navbar from "./components/Layout/Navbar";
-import Card from "./components/UI/Card";
+import { useState } from 'react';
+
+import Header from './components/Layout/Header';
+import Meals from './components/Meals/Meals';
+import Cart from './components/Cart/Cart';
+import CartProvider from './store/CartProvider';
 
 function App() {
-  const [cart, setCartStatus] = useState(false);
-  const cartHandler = () => {
-    setCartStatus(true);
+  const [cartIsShown, setCartIsShown] = useState(false);
+
+  const showCartHandler = () => {
+    setCartIsShown(true);
   };
-  const closeButtonHandler = () => {
-    setCartStatus(false);
+
+  const hideCartHandler = () => {
+    setCartIsShown(false);
   };
+
   return (
-    <>
-      <CartState>
-        <Cart status={cart} closeButton={closeButtonHandler}>
-          Fancy Modal
-        </Cart>
-        <Navbar cartClickHandler={cartHandler} />
-        <Card />
-      </CartState>
-    </>
+    <CartProvider>
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
+      <Header onShowCart={showCartHandler} />
+      <main>
+        <Meals />
+      </main>
+    </CartProvider>
   );
 }
 

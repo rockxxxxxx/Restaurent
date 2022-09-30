@@ -1,67 +1,54 @@
-import React, { useContext } from "react";
-import ReactDOM from "react-dom";
-import CartContext from "../Context/CartContext";
+import { useContext } from 'react';
 
-const MODAL_STYLES = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "#FFF",
-  padding: "10px",
-  zIndex: 1000,
-  width: "30%",
-  borderRadius: "10px",
-};
+import Modal from '../UI/Modal';
+import CartItem from './CartItem';
+import classes from './Cart.module.css';
+import CartContext from '../../store/cart-context';
 
-const OVERLAY_STYLES = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0, 0, 0, .7)",
-  zIndex: 1000,
-};
+const Cart = (props) => {
+  const cartCtx = useContext(CartContext);
 
-export default function Cart(props) {
-  const showCartItem = useContext(CartContext);
-  if (props.status === false) {
-    return null;
-  }
-  return ReactDOM.createPortal(
-    <>
-      <div style={OVERLAY_STYLES} />
-      <div style={MODAL_STYLES}>
-        {showCartItem.cartItem.map((item) => {
-          return (
-            <>
-              <h4
-                style={{
-                  textAlign: "left",
-                  marginTop: "0px",
-                  display: "inline-block",
-                  float: "left",
-                }}
-              >
-                {item.title}
-              </h4>
-              <h4
-                style={{
-                  textAlign: "left",
-                  marginTop: "0px",
-                  display: "inline-block",
-                  float: "right",
-                }}
-              >
-                {item.price}
-              </h4>
-              <br />
-            </>
-          );
-        })}
-      </div>
-    </>,
-    document.getElementById("portal")
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const hasItems = cartCtx.items.length > 0;
+
+  const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem({ ...item, amount: 1 });
+  };
+
+  const cartItems = (
+    <ul className={classes['cart-items']}>
+      {cartCtx.items.map((item) => (
+        <CartItem
+          key={item.id}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          onRemove={cartItemRemoveHandler.bind(null, item.id)}
+          onAdd={cartItemAddHandler.bind(null, item)}
+        />
+      ))}
+    </ul>
   );
-}
+
+  return (
+    <Modal onClose={props.onClose}>
+      {cartItems}
+      <div className={classes.total}>
+        <span>Total Amount</span>
+        <span>{totalAmount}</span>
+      </div>
+      <div className={classes.actions}>
+        <button className={classes['button--alt']} onClick={props.onClose}>
+          Close
+        </button>
+        {hasItems && <button className={classes.button}>Order</button>}
+      </div>
+    </Modal>
+  );
+};
+
+export default Cart;
